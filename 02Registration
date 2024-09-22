@@ -1,0 +1,29 @@
+package Exam20240808;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class E2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Pattern pattern = Pattern.compile("U\\$(?<username>[A-Z][a-z][a-z]+)U\\$P\\@\\$(?<password>[A-Za-z][A-Za-z][A-Za-z][A-Za-z][A-Za-z][\\d\\s\\w]*[\\d]+)P\\@\\$");
+        int count = 0;
+
+        int n = Integer.parseInt(scanner.nextLine());
+        for (int i = 1; i <= n ; i++) {
+            String input = scanner.nextLine();
+            Matcher matcher = pattern.matcher(input);
+            if(matcher.find()){
+                String username = matcher.group("username");
+                String password  =matcher.group("password");
+                System.out.println("Registration was successful");
+                System.out.printf("Username: %s, Password: %s%n", username, password);
+                count++;
+            }else{
+                System.out.println("Invalid username or password");
+            }
+        }
+        System.out.printf("Successful registrations: %d%n", count);
+    }
+}
