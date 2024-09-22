@@ -15,6 +15,7 @@ public class E3 {
           if(command.equals("Complete")){
               break;
           }
+
           if(command.equals("Make Upper")){
               mail = mail.toUpperCase();
               System.out.println(mail);
