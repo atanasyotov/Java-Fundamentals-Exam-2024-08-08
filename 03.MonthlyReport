@@ -1,0 +1,68 @@
+package Exam20240808;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class E1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Double> distributors= new LinkedHashMap<>();
+        Map<String, Double> clients = new LinkedHashMap<>();
+
+        while (true){
+            String input = scanner.nextLine();
+            if(input.equals("End")){
+                break;
+            }
+            String command = input.split(" ")[0];
+            if(command.equals("Deliver")){
+                String distributorName = input.split(" ")[1];
+                double moneySpent = Double.parseDouble(input.split(" ")[2]);
+                if(distributors.containsKey(distributorName)){
+                    double totalMoneySpent = distributors.get(distributorName) + moneySpent;
+                    distributors.put(distributorName, totalMoneySpent);
+                }else{
+                    distributors.put(distributorName, moneySpent);
+                }
+            }else if(command.equals("Return")){
+                String distributorName = input.split(" ")[1];
+                double moneyReturn = Double.parseDouble(input.split(" ")[2]);
+
+                if(distributors.containsKey(distributorName)) {
+                    double totalMoney = distributors.get(distributorName) - moneyReturn;
+
+                    if (totalMoney == 0) {
+                        distributors.remove(distributorName);
+                        continue;
+                    }else if(totalMoney < 0){
+                        continue;
+                    }
+                    distributors.put(distributorName, totalMoney);
+                }
+            } else if (command.equals("Sell")) {
+                String clientsName = input.split(" ")[1];
+                double moneyEarned = Double.parseDouble(input.split(" ")[2]);
+
+                if(clients.containsKey(clientsName)){
+                    double totalMoney = clients.get(clientsName) + moneyEarned;
+                    clients.put(clientsName, totalMoney);
+                }else{
+                    clients.put(clientsName, moneyEarned);
+                }          
+            }
+        }
+        clients.forEach((key, value) -> System.out.printf("%s: %.2f%n", key, value));
+        System.out.print("-----------");
+        System.out.println();
+        distributors.forEach((key, value) -> System.out.printf("%s: %.2f%n", key, value));
+        System.out.print("-----------");
+        System.out.println();
+        double sumFromClients = 0;
+        for (Map.Entry<String, Double> entry: clients.entrySet()){
+            sumFromClients += entry.getValue();
+        }
+        System.out.printf("Total Income: %.2f", sumFromClients);
+    }
+}
