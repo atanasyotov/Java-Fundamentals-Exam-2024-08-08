@@ -1,0 +1,58 @@
+package Exam20240808;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class E3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String mail = scanner.nextLine();
+
+        while(true){
+          String command = scanner.nextLine();
+          if(command.equals("Complete")){
+              break;
+          }
+          if(command.equals("Make Upper")){
+              mail = mail.toUpperCase();
+              System.out.println(mail);
+          } else if (command.equals("Make Lower")) {
+              mail = mail.toLowerCase();
+              System.out.println(mail);
+          } else if (command.contains("GetDomain")) {
+              int lastCharsNumber = Integer.parseInt(command.split(" ")[1]);
+              char [] chars = mail.toCharArray();
+              for (int i = mail.length() - (lastCharsNumber); i <= mail.length() - 1 ; i++) {
+                  char currentChar = chars[i];
+                  System.out.print(currentChar);
+              }
+              System.out.println();
+          } else if (command.equals("GetUsername")) {
+              if(!mail.contains("@")){
+                  System.out.printf("The email %s doesn't contain the @ symbol.%n", mail);
+              }else{
+                  Pattern pattern = Pattern.compile("(?<name>[A-Za-z0-9]+)@(?<mail>[A-Za-z0-9]+)\\.(?<domain>[A-Za-z0-9]+)");
+                  Matcher matcher = pattern.matcher(mail);
+                  if(matcher.find()){
+                      String name = matcher.group("name");
+                      System.out.println(name);
+                  }
+              }
+          } else if (command.contains("Replace")) {
+              String currentChar = command.split(" ")[1];
+              char [] current = currentChar.toCharArray();
+              char charToUse = current[0];
+              mail = mail.replace(charToUse, '-');
+              System.out.println(mail);
+          }else if (command.equals("Encrypt")){
+
+              for (char currentChar : mail.toCharArray()) {
+                  System.out.print((int)currentChar);
+                  System.out.print(" ");
+              }
+          }
+        }
+    }
+}
